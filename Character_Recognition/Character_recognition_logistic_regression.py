@@ -22,6 +22,42 @@ MIN_CONTOUR_AREA = 100
 RESIZED_IMAGE_WIDTH = 20
 RESIZED_IMAGE_HEIGHT = 30
 
+        
+    
+def fit_and_dump(filename):
+    '''
+    # Function: fit_and_dump
+    # Output: dump newly trained model in filename
+    # Example call:fit_and_dump(filename)
+    '''
+# Importing datasets -----------------------------------------------------------------------------------------------------------------------------------
+
+# Getting local classification dataset------------------------------------------------------------------------------------------------------------------
+
+    try:
+        npaClassifications = np.loadtxt("classifications_english.txt", np.float32)                  # read in training classifications
+    except:
+        print ("error, unable to open classifications_english.txt, exiting program\n")
+        os.system("pause")
+    
+    
+    try:
+        npaFlattenedImages = np.loadtxt("flattened_images_english.txt", np.float32)                 # read in training images
+    except:
+        print ("error, unable to open flattened_images_english.txt, exiting program\n")
+        os.system("pause")
+    
+    
+    npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))       # reshape numpy array to 1d, necessary to pass to call to train
+    
+    
+    
+    # Initialising CLASSIFIERS------------------------------------------------------------------------------------------------------------------------------
+    # Re-training model
+    classifier_local = LogisticRegression(random_state = 0)                     # instantiate LogisticRegression object to train and save model
+    classifier_local.fit(npaFlattenedImages, npaClassifications)                # Train the classifier object
+    joblib.dump(classifier_local, filename)                                     # save model in filename
+
 ####################################################################################################################################################
 #                        Contour with data class with member variables to check contour validity and getting bounding rectange info 
 #################################################################################################################################################### 
@@ -63,7 +99,8 @@ class image_feature_extraction():
     	# Logic: 1. Get imgTestingNumbers by reading the image from path input_img
                 2. Filter image from grayscale to black and white
                 3. Get information of each character in image by finding contours
-                4. Crop out the ROI containg character and get resized images list
+                4. Crop out the ROI containg character then resize it to (20 x 30) and get resized images list
+                5. Flatten the image to 1d numpy vector which be later used for prediction
     	# Example call: npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image)
         '''
         allContoursWithData = []                            # declare empty lists,
@@ -139,6 +176,11 @@ class image_feature_extraction():
 ####################################################################################################################################################        
 
 filename = 'finalized_model.sav'
+
+case=input("Do you want train the model and predict the results? Select 'n' if you want to use existing model: [y/n]")
+if(case=='y' or case=='Y'):
+    fit_and_dump(filename)
+
 classifier_local_loaded = joblib.load(filename) # Logistic regression model loaded
 test_image="test4.png"
 npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
@@ -166,40 +208,9 @@ cv2.destroyAllWindows()             # remove windows from memory
 case=input("In case the of incorrect detection or for better learning, update the dataset and train model again:\n Do you want to update the dataset? [y/n]")
 if(case=='y' or case=='Y'):
     update_data("test_images/"+test_image)# update dat
+    fit_and_dump(filename)
 
-# Traning model again on updated dataset----------------------------------------------------------------------------------------------------------------
-    ##Importing datasets -----------------------------------------------------------------------------------------------------------------------------------
-
-    # Getting local classification dataset------------------------------------------------------------------------------------------------------------------
-    try:
-        npaClassifications = np.loadtxt("classifications.txt", np.float32)                  # read in training classifications
-    except:
-        print ("error, unable to open classifications.txt, exiting program\n")
-        os.system("pause")
     
-    
-    try:
-        npaFlattenedImages = np.loadtxt("flattened_images.txt", np.float32)                 # read in training images
-    except:
-        print ("error, unable to open flattened_images.txt, exiting program\n")
-        os.system("pause")
-    
-    
-    npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))       # reshape numpy array to 1d, necessary to pass to call to train
-    
-    
-    # Getting mnist training set----------------------------------------------------------------------------------------------------------------------------
-    #mnist_dataset = pd.read_csv('Dataset/train.csv')
-    #X_train_mnist = mnist_dataset.iloc[:, 1:].values
-    #y_train_mnist = mnist_dataset.iloc[:, 0].values
-     
-    
-    
-    # Initialising CLASSIFIERS------------------------------------------------------------------------------------------------------------------------------
-    # Re-training model
-    classifier_local = LogisticRegression(random_state = 0)                     # instantiate LogisticRegression object to train and save model
-    classifier_local.fit(npaFlattenedImages, npaClassifications)                # Train the classifier object
-    joblib.dump(classifier_local, filename)                                     # save model in filename
     
 print("Program ended successfully")
 
