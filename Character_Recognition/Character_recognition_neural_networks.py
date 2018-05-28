@@ -64,7 +64,8 @@ class image_feature_extraction():
     	# Logic: 1. Get imgTestingNumbers by reading the image from path input_img
                 2. Filter image from grayscale to black and white
                 3. Get information of each character in image by finding contours
-                4. Crop out the ROI containg character and get resized images list
+                4. Crop out the ROI containg character then resize it to (20 x 30) and get resized images list
+                5. Flatten the image to 1d numpy vector which be later used for prediction
     	# Example call: npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image)
         '''
         allContoursWithData = []                            # declare empty lists,
@@ -164,7 +165,8 @@ npaFlattenedImages = sc_npaFlattenedImages.fit_transform(npaFlattenedImages)
 # Encoding done for Classifications-------------------------------------------------------------------------------------------------------------
 npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))       # reshape numpy array to 1d, necessary to pass to call to train
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-labelencoder_npaClassifications = LabelEncoder()                                   # Label ncoding not needed in this case as classifications are ASCII numeric values
+labelencoder_npaClassifications = LabelEncoder()                                    # Label encoding not needed in this case as classifications are ASCII numeric values
+                                                                                    # But here we use label encoder to later use inverse transform method for decoding purposes
 npaClassifications[:, 0] = labelencoder_npaClassifications.fit_transform(npaClassifications[:, 0])
 onehotencoder = OneHotEncoder(categorical_features = [0])
 npaClassifications = onehotencoder.fit_transform(npaClassifications).toarray()
@@ -195,7 +197,7 @@ classifier_neural.fit(npaFlattenedImages, npaClassifications, batch_size = 10, n
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
-test_image="test10.png"
+test_image="test11.png"
 npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
 
 ## Initialize empty strings for storing results from classification
