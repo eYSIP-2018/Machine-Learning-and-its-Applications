@@ -79,12 +79,12 @@ class image_feature_extraction():
 
 
         imgGray = cv2.cvtColor(imgTestingNumbers, cv2.COLOR_BGR2GRAY)       # get grayscale image
-        imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                    # blur
+        imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                    # blur, applying gaussian blur to bitmap here
 
 # filter image from grayscale to black and white--------------------------------------------------------------------------------------------------------
         imgThresh = cv2.adaptiveThreshold(imgBlurred,                           # input image
                                           255,                                  # make pixels that pass the threshold full white
-                                          cv2.ADAPTIVE_THRESH_GAUSSIAN_C,       # use gaussian rather than mean, seems to give better results
+                                          cv2.ADAPTIVE_THRESH_GAUSSIAN_C,       # use gaussian 
                                           cv2.THRESH_BINARY_INV,                # invert so foreground will be white, background will be black
                                           11,                                   # size of a pixel neighborhood used to calculate threshold value
                                           2)                                    # constant subtracted from the mean or weighted mean
@@ -178,6 +178,10 @@ npaClassifications = onehotencoder.fit_transform(npaClassifications).toarray()
 --> Neurons in hidden layer has uniform weights initialization and rectifier activation function associated
 --> Neuron in ouput layer has sigmoid activation fuction, softmax used here since NN as more than 2 outcomes
 '''
+
+import warnings
+warnings.filterwarnings('ignore') # To ignore UserWarnings and DeprecationWarning
+
 classifier_neural = Sequential()
 
 # Adding the input layer and the first hidden layer
@@ -193,7 +197,7 @@ classifier_neural.add(Dense(output_dim = len(npaClassifications[0]), init = 'uni
 classifier_neural.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy']) # loss = 'categorical_crossentropy' --> in case of output with more than two outcomes
 
 # Fitting the ANN to the Training set
-classifier_neural.fit(npaFlattenedImages, npaClassifications, batch_size = 10, nb_epoch = 5)
+classifier_neural.fit(npaFlattenedImages, npaClassifications, batch_size = int(len(npaFlattenedImages[0])/20), nb_epoch = 10)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
