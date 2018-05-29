@@ -30,9 +30,9 @@ def fit_and_dump(filename):
     # Output: dump newly trained model in filename
     # Example call:fit_and_dump(filename)
     '''
-# Importing datasets -----------------------------------------------------------------------------------------------------------------------------------
-
-# Getting local classification dataset------------------------------------------------------------------------------------------------------------------
+    # Importing datasets -----------------------------------------------------------------------------------------------------------------------------------
+    
+    # Getting local classification dataset------------------------------------------------------------------------------------------------------------------
 
     try:
         npaClassifications = np.loadtxt("classifications_english.txt", np.float32)                  # read in training classifications
@@ -182,33 +182,34 @@ if(case=='y' or case=='Y'):
     fit_and_dump(filename)
 
 classifier_local_loaded = joblib.load(filename) # Logistic regression model loaded
-test_image="test4.png"
-npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
 
-## Initialize empty strings for storing results from classification ------------------------------------------------------------------------------------
-logistic_regression_results=""
-strFinalString = ""         
-logistic_regression_results_digits=""
-logistic_regression_results_mnist=""
-
-## Predict classification results-----------------------------------------------------------------------------------------------------------------------
-for npaROIResized in npaROIResized_list:
-    y_pred = classifier_local_loaded.predict(npaROIResized)
-    logistic_regression_results=logistic_regression_results+chr(y_pred)  
-
-## Print Results ---------------------------------------------------------------------------------------------------------------------------------------
-print ("\nResults from Logistic Regression: " + logistic_regression_results)                 # show the full string
-
-cv2.imshow("imgTestingNumbers", imgTestingNumbers)      # show input image with green boxes drawn around found digits
-cv2.waitKey(0)                                          # wait for user key press
-
-cv2.destroyAllWindows()             # remove windows from memory
-
-# Update local dataset if any character is incorrectly recognised--------------------------------------------------------------------------------------
-case=input("In case the of incorrect detection or for better learning, update the dataset and train model again:\n Do you want to update the dataset? [y/n]")
-if(case=='y' or case=='Y'):
-    update_data("test_images/"+test_image)# update dat
-    fit_and_dump(filename)
+for test_image_number in range(1,14):
+    test_image="test"+str(test_image_number)+".png"
+    npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
+    
+    ## Initialize empty strings for storing results from classification ------------------------------------------------------------------------------------
+    logistic_regression_results=""
+            
+    
+    ## Predict classification results-----------------------------------------------------------------------------------------------------------------------
+    for npaROIResized in npaROIResized_list:
+        y_pred = classifier_local_loaded.predict(npaROIResized)
+        logistic_regression_results=logistic_regression_results+chr(y_pred)  
+    
+    ## Print Results ---------------------------------------------------------------------------------------------------------------------------------------
+    print ("\nResults from Logistic Regression: " + logistic_regression_results)                 # show the full string
+    
+    cv2.imshow("imgTestingNumbers", imgTestingNumbers)      # show input image with green boxes drawn around found digits
+    cv2.waitKey(0)                                          # wait for user key press
+    
+    cv2.destroyAllWindows()             # remove windows from memory
+    
+    # Update local dataset if any character is incorrectly recognised--------------------------------------------------------------------------------------
+    case=input("In case the of incorrect detection or for better learning, update the dataset and train model again for test"+str(test_image_number)+".png:\n Do you want to update the dataset? [y/n]")
+    if(case=='y' or case=='Y'):
+        update_data("test_images/"+test_image)# update dataset
+        fit_and_dump(filename)
+        classifier_local_loaded = joblib.load(filename) # Logistic regression model loaded
 
     
     

@@ -201,29 +201,32 @@ classifier_neural.fit(npaFlattenedImages, npaClassifications, batch_size = int(l
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
-test_image="test11.png"
-npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
 
-## Initialize empty strings for storing results from classification
-neural_network_results=""
+for test_image_number in range(1,14):
+    test_image="test"+str(test_image_number)+".png"
+    npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
+    
+    ## Initialize empty strings for storing results from classification
+    neural_network_results=""
+    
+    ## Predict classification results-----------------------------------------------------------------------------------------------------------------------
+    for npaROIResized in npaROIResized_list:
+        npaFlattenedImages=sc_npaFlattenedImages.transform(npaFlattenedImages)
+        y_pred = classifier_neural.predict(npaROIResized)
+        y_pred_inverted = labelencoder_npaClassifications.inverse_transform([np.argmax(y_pred[0, :])])
+        neural_network_results=neural_network_results+chr(int(y_pred_inverted))
+    
+    ## Print Results ---------------------------------------------------------------------------------------------------------------------------------------
+    print ("\nResults from Neural Networks: ====>" + neural_network_results + "\n")                 # show the full string
+    
+    cv2.imshow("imgTestingNumbers", imgTestingNumbers)      # show input image with green boxes drawn around found digits
+    cv2.waitKey(0)                                          # wait for user key press
+    
+    cv2.destroyAllWindows()             # remove windows from memory
 
-## Predict classification results-----------------------------------------------------------------------------------------------------------------------
-for npaROIResized in npaROIResized_list:
-    npaFlattenedImages=sc_npaFlattenedImages.transform(npaFlattenedImages)
-    y_pred = classifier_neural.predict(npaROIResized)
-    y_pred_inverted = labelencoder_npaClassifications.inverse_transform([np.argmax(y_pred[0, :])])
-    neural_network_results=neural_network_results+chr(int(y_pred_inverted))
+    # Update local dataset if any character is incorrectly recognised--------------------------------------------------------------------------------------
+    case=input("In case the of incorrect detection or for better learning, update the dataset for test"+str(test_image_number)+".png:\n Do you want to update the dataset? [y/n]")
+    if(case=='y' or case=='Y'):
+        update_data("test_images/"+test_image)
 
-## Print Results ---------------------------------------------------------------------------------------------------------------------------------------
-print ("\nResults from Neural Networks: " + neural_network_results + "\n")                 # show the full string
-
-cv2.imshow("imgTestingNumbers", imgTestingNumbers)      # show input image with green boxes drawn around found digits
-cv2.waitKey(0)                                          # wait for user key press
-
-cv2.destroyAllWindows()             # remove windows from memory
-
-# Update local dataset if any character is incorrectly recognised--------------------------------------------------------------------------------------
-case=input("In case the of incorrect detection or for better learning, update the dataset and train model again:\n Do you want to update the dataset? [y/n]")
-if(case=='y' or case=='Y'):
-    update_data("test_images/"+test_image)
-print("Program ended successfully")
+print("Program ended successfully !!")
