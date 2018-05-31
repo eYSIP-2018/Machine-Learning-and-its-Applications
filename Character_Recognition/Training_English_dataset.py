@@ -9,7 +9,7 @@ import numpy as np
 import cv2
 import os
 
-def decode_character(training_folder_number):
+def decode_character(training_folder_number): # Decode char
     decoding_array=[]
     for i in range(48,58):
         decoding_array.append(chr(i))
@@ -38,7 +38,7 @@ RESIZED_IMAGE_HEIGHT = 30
 ######################################## Main Code ###########################################################
 
 
-for training_folder_number in range(1,37):
+for training_folder_number in range(3,7):
     
     for training_image_number in range(1,56):
         print("Traning folder Sample0"+str(training_folder_number),"Traning image0"+str(training_image_number))
@@ -60,6 +60,8 @@ for training_folder_number in range(1,37):
                                           cv2.THRESH_BINARY_INV,                # invert so foreground will be white, background will be black
                                           11,                                   # size of a pixel neighborhood used to calculate threshold value
                                           2)                                    # constant subtracted from the mean or weighted mean
+        
+#        ret,imgThresh = cv2.threshold(imgBlurred,127,255,cv2.THRESH_BINARY_INV)
         
         #    cv2.imshow("imgThresh", imgThresh)      # show threshold image for reference
         
@@ -129,6 +131,16 @@ for training_folder_number in range(1,37):
         npaFlattenedImages_loadable= np.append(npaFlattenedImages_og,npaFlattenedImages,axis=0) # adding new images to load in text file
         npaClassifications_loadable = np.append(npaClassifications_og,npaClassifications)  # adding new classifications to load in text file
         
+        print(len(npaClassifications_loadable),len(npaFlattenedImages_loadable))
+        
+        # Equalizing Lengths
+        if(len(npaClassifications_loadable)!=len(npaFlattenedImages_loadable)):
+            print("Equalizing dataset lengths....")
+            min_length=min(len(npaClassifications_loadable),len(npaFlattenedImages_loadable))
+            npaClassifications_loadable=npaClassifications_loadable[0:min_length-1]
+            npaFlattenedImages_loadable=npaFlattenedImages_loadable[0:min_length-1]
+            print("After equalizing: ",len(npaClassifications_loadable),len(npaFlattenedImages_loadable))
+            
         np.savetxt("classifications_english.txt", npaClassifications_loadable)           # write flattened images to text file
         np.savetxt("flattened_images_english.txt", npaFlattenedImages_loadable)          # write classifiactions to text file
 
