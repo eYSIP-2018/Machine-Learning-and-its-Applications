@@ -16,13 +16,11 @@ from keras.models import Sequential
 from keras.layers import Dense
 import pandas as pd # to load the dataset
 from update_local_dataset import *
-
-# module level variables ##########################################################################
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 MIN_CONTOUR_AREA = 100
 
-RESIZED_IMAGE_WIDTH = 20
-RESIZED_IMAGE_HEIGHT = 30
-
+RESIZED_IMAGE_WIDTH = 28
+RESIZED_IMAGE_HEIGHT = 28
 ####################################################################################################################################################
 #                        Contour with data class with member variables to check contour validity and getting bounding rectange info 
 #################################################################################################################################################### 
@@ -52,10 +50,7 @@ class ContourWithData():
 #################################################################################################################################################### 
 class image_feature_extraction():
 
-    MIN_CONTOUR_AREA = 100
 
-    RESIZED_IMAGE_WIDTH = 20
-    RESIZED_IMAGE_HEIGHT = 30
     def get_X_features_by_character_cropping(input_img):
         '''
     	# Function: get_X_features_by_character_cropping
@@ -81,6 +76,8 @@ class image_feature_extraction():
         imgGray = cv2.cvtColor(imgTestingNumbers, cv2.COLOR_BGR2GRAY)       # get grayscale image
         imgBlurred = cv2.GaussianBlur(imgGray, (5,5), 0)                    # blur, applying gaussian blur to bitmap here
 
+
+        
 # filter image from grayscale to black and white--------------------------------------------------------------------------------------------------------
         imgThresh = cv2.adaptiveThreshold(imgBlurred,                           # input image
                                           255,                                  # make pixels that pass the threshold full white
@@ -89,8 +86,12 @@ class image_feature_extraction():
                                           11,                                   # size of a pixel neighborhood used to calculate threshold value
                                           2)                                    # constant subtracted from the mean or weighted mean
 
-        imgThreshCopy = imgThresh.copy()                                        # make a copy of the thresh image, this in necessary b/c findContours modifies the image
+#        ret,imgThresh = cv2.threshold(imgBlurred,127,255,cv2.THRESH_BINARY_INV)
 
+        imgThreshCopy = imgThresh.copy()                                        # make a copy of the thresh image, this in necessary b/c findContours modifies the image
+        
+
+                    
 # Get information of each character in image by finding contours----------------------------------------------------------------------------------------
         imgContours, npaContours, npaHierarchy = cv2.findContours(imgThreshCopy,        # input image, make sure to use a copy since the function will modify this image in the course of finding contours
                                                      cv2.RETR_EXTERNAL,                 # retrieve the outermost contours only
@@ -114,7 +115,8 @@ class image_feature_extraction():
 
 # 
         npaROIResized_list=[]
-
+        
+        print("imgThresh: ",imgThresh)
         for contourWithData in validContoursWithData:            # for each contour
                                                     # draw a green rect around the current char
             cv2.rectangle(imgTestingNumbers,                                        # draw rectangle on original testing image
@@ -130,7 +132,14 @@ class image_feature_extraction():
 
             npaROIResized = imgROIResized.reshape((1, RESIZED_IMAGE_WIDTH * RESIZED_IMAGE_HEIGHT))      # flatten image into 1d numpy array
 
-            npaROIResized = np.float32(npaROIResized)       # convert from 1d numpy array of ints to 1d numpy array of floats
+#            npaROIResized = np.float32(npaROIResized)       # convert from 1d numpy array of ints to 1d numpy array of floats
+            
+#            for i in range(len(npaROIResized[0])):
+#                if npaROIResized[0][i]>127:
+#                    npaROIResized[0][i]=255
+#                else:
+#                    npaROIResized[0][i]=0
+            
 
             npaROIResized_list.append(npaROIResized)
         return npaROIResized_list,imgTestingNumbers
@@ -149,18 +158,38 @@ try:
 except:
     print ("error, unable to open classifications_english.txt, exiting program\n")
     os.system("pause")
-
-
 try:
     npaFlattenedImages = np.loadtxt("flattened_images_english.txt", np.float32)                 # read in training images
 except:
     print ("error, unable to open flattened_images_english.txt, exiting program\n")
     os.system("pause")
 
+# For testing purposes, for validation on sklearns digits dataset---------------------------------------------------------------------------------------
+#from sklearn import datasets
+#digits=datasets.load_digits()
+#npaFlattenedImages=digits['data']
+#npaClassifications=digits['target']
+
+# Loading mnist training dataset from train.csv---------------------------------------------------------------------------------------------------------
+#print("Reading mnist digits dataset....")
+#dataset = pd.read_csv('train.csv') # This dataset is not contour bounded edge to edge
+#npaFlattenedImages = dataset.iloc[:, 1:].values
+#npaClassifications = dataset.iloc[:, 0].values
+## Thresholding dataset
+#print("Thresholding Dataset")
+#for i in range(len(npaFlattenedImages)):
+#    for j in range(len(npaFlattenedImages[0])):
+#        if(npaFlattenedImages[i][j]>127):
+#            npaFlattenedImages[i][j]=255
+#        else:
+#            npaFlattenedImages[i][j]=0
+
+####################################################################################################################################################
+    
 # Feature Scaling for Flattened Images----------------------------------------------------------------------------------------------------------
-from sklearn.preprocessing import StandardScaler
-sc_npaFlattenedImages = StandardScaler()
-npaFlattenedImages = sc_npaFlattenedImages.fit_transform(npaFlattenedImages)
+#from sklearn.preprocessing import StandardScaler
+#sc_npaFlattenedImages = StandardScaler()
+#npaFlattenedImages = sc_npaFlattenedImages.fit_transform(npaFlattenedImages)
 
 # Encoding done for Classifications-------------------------------------------------------------------------------------------------------------
 npaClassifications = npaClassifications.reshape((npaClassifications.size, 1))       # reshape numpy array to 1d, necessary to pass to call to train
@@ -171,6 +200,13 @@ npaClassifications[:, 0] = labelencoder_npaClassifications.fit_transform(npaClas
 onehotencoder = OneHotEncoder(categorical_features = [0])
 npaClassifications = onehotencoder.fit_transform(npaClassifications).toarray()
 
+# Splitting the dataset into the Training set and Test set--------------------------------------------------------------------------------------
+#from sklearn.model_selection import train_test_split
+#npaFlattenedImages, npaFlattenedImages_test, npaClassifications, npaClassifications_test = train_test_split(npaFlattenedImages,
+#                                                                                                            npaClassifications,
+#                                                                                                            test_size = 0.15, 
+#                                                                                                            random_state = 0)
+
 
 # Initialising CLASSIFIERS for artificial neural networks---------------------------------------------------------------------------------------
 '''
@@ -179,16 +215,17 @@ npaClassifications = onehotencoder.fit_transform(npaClassifications).toarray()
 --> Neuron in ouput layer has sigmoid activation fuction, softmax used here since NN as more than 2 outcomes
 '''
 
+
 import warnings
 warnings.filterwarnings('ignore') # To ignore UserWarnings and DeprecationWarning
 
 classifier_neural = Sequential()
 
 # Adding the input layer and the first hidden layer
-classifier_neural.add(Dense(output_dim = int((len(npaFlattenedImages[0])+len(npaClassifications[0]))/2), init = 'uniform', activation = 'relu', input_dim = int(len(npaFlattenedImages[0])))) # Using rectifier activation function
+classifier_neural.add(Dense(output_dim = int((len(npaFlattenedImages[0])+len(npaClassifications[0]))/2.6), init = 'uniform', activation = 'relu', input_dim = int(len(npaFlattenedImages[0])))) # Using rectifier activation function
 
 # Adding the second hidden layer
-classifier_neural.add(Dense(output_dim = int((len(npaFlattenedImages[0])+len(npaClassifications[0]))/2), init = 'uniform', activation = 'relu')) # Using rectifier activation function for 2nd hidden layer
+classifier_neural.add(Dense(output_dim = int((len(npaFlattenedImages[0])+len(npaClassifications[0]))/3), init = 'uniform', activation = 'relu')) # Using rectifier activation function for 2nd hidden layer
 
 # Adding the output layer
 classifier_neural.add(Dense(output_dim = len(npaClassifications[0]), init = 'uniform', activation = 'softmax')) # activation = 'softmax' --> in case of in case of output with more than two outcomes
@@ -196,13 +233,26 @@ classifier_neural.add(Dense(output_dim = len(npaClassifications[0]), init = 'uni
 # Compiling the ANN
 classifier_neural.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy']) # loss = 'categorical_crossentropy' --> in case of output with more than two outcomes
 
-# Fitting the ANN to the Training set
-classifier_neural.fit(npaFlattenedImages, npaClassifications, batch_size = int(len(npaFlattenedImages[0])/20), nb_epoch = 10)
+# Shuffling the Dataset
+from sklearn.utils import shuffle
+npaFlattenedImages,npaClassifications=shuffle(npaFlattenedImages,npaClassifications)
 
+# Fitting the ANN to the Training set
+classifier_neural.fit(npaFlattenedImages, npaClassifications,
+                      validation_split = 0.1,                                   # here in validation_split the split is not random it always take last 10% of the data, hence shuffle before fitting
+                      batch_size = int(len(npaFlattenedImages[0])/30),
+                      nb_epoch = 3)
+                                                                
+
+# Model Evaluation (need to split the dataset in training set and test set), like confusion matrix in sklearn model evaluation
+#loss_and_acc = classifier_neural.evaluate(npaFlattenedImages_test, npaClassifications_test, batch_size=int(len(npaFlattenedImages_test[0])/20))
+#print("AFter evaluation, Loss is: ",loss_and_acc[0],", Accuracy is: ",loss_and_acc[1])
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
+# Keras Crossvalidation
 
-for test_image_number in range(1,14):
+
+for test_image_number in range(5,6):
     test_image="test"+str(test_image_number)+".png"
     npaROIResized_list, imgTestingNumbers = image_feature_extraction.get_X_features_by_character_cropping("test_images/"+test_image) ## Get cropped characters ##
     
@@ -211,13 +261,15 @@ for test_image_number in range(1,14):
     
     ## Predict classification results-----------------------------------------------------------------------------------------------------------------------
     for npaROIResized in npaROIResized_list:
-        npaFlattenedImages=sc_npaFlattenedImages.transform(npaFlattenedImages)
+#        npaROIResized=sc_npaFlattenedImages.transform(npaROIResized)
+#        print(npaROIResized)
         y_pred = classifier_neural.predict(npaROIResized)
         y_pred_inverted = labelencoder_npaClassifications.inverse_transform([np.argmax(y_pred[0, :])])
-        neural_network_results=neural_network_results+chr(int(y_pred_inverted))
+        print(y_pred_inverted)
+        neural_network_results=neural_network_results+str(int(y_pred_inverted))
     
     ## Print Results ---------------------------------------------------------------------------------------------------------------------------------------
-    print ("\nResults from Neural Networks: ====>" + neural_network_results + "\n")                 # show the full string
+    print ("\nResults from Neural Networks: ====> " + neural_network_results + "\n")                 # show the full string
     
     cv2.imshow("imgTestingNumbers", imgTestingNumbers)      # show input image with green boxes drawn around found digits
     cv2.waitKey(0)                                          # wait for user key press
@@ -230,3 +282,4 @@ for test_image_number in range(1,14):
         update_data("test_images/"+test_image)
 
 print("Program ended successfully !!")
+#---------------------------------------------------------------------------------------------------------------------------------------------------------
