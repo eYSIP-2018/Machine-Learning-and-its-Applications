@@ -1,0 +1,79 @@
+Sir, our battery is draining very quickly. Can we use battery of 2200mAh instead of 1500mAh battery?
+We are facing critical issue with lm338. Our snake is functioning as desired for few minutes after that power delivered to the snake reduces. We thought maybe ic was malfunctioning, but we replaced them quite a few times, we tried distributing load to 3 lm338 ic's but proper functioning time only increases for few more minutes.  Is there any other team facing same issue?  We request instructors to help us figure out issue. Is it a hardware or software fault.
+Sir, Please inform once the SparkV robot has been dispatched from your side. We will notify you of the tracking id once we send it from our side. Team : eYRC#83
+When Arduino nano is powered up laptop the transmitter and receiver are working normally.But when it is powered by LiPo battery the radio.available() will always be true and no data will be received by the receiver module.Transmitter is working fine and there is no issue with the power supply as other codes are working fine.Can we please get some suggestions about this?
+ALL of the five drone batteries that we have been provided do not rise on full charge, and the drone hops on the ground before even attaining some height. This makes it impossible for us to tune the PID. Please respond ASAP because we can not proceed further with batteries like this
+Since today morning we are unable to connect to Pluto drone(not shown on wifi). We have even checked it using our mobile phones. It's not getting connected to any device. Please assist us.
+Dear Sir, We encountered an unpleasant situation regarding the drone. While charging the battery through the adapter (mobile charger) the battery got overheated; it was observed in due time and the connection was cut. Checking it later on the battery was working properly but the switch is not working. Now we've to disconnect the connections of battery and the drone to replicate the switch on process and disconnect the same to switch off. please Help!
+Initially only the left motor used to work, we thought it was a programming problem, but yesterday while testing and debugging it one of my team member pressed a capacitor which was near the right motor, after doing so the right motor started working. Sometimes the motor does stop again and pressing the capacitor does the trick. What to do about this situation.
+Initially only the left motor used to work, we thought it was a programming problem, but yesterday while testing and debugging it one of my team member pressed a capacitor which was near the right motor, after doing so the right motor started working. Sometimes the motor does stop again and pressing the capacitor does the trick. What to do about this situation.
+We have 5 battery and none of them is taking height. When the battery is fully charged then it goes for few second and comes down and hops on ground. What is the problem is it battery or rpm of motor. Also when drone goes up, it bend toward one side and move across it. We are unable to solve this problem. Please help
+With different batteries drone is behaving differently when ever the battery is changed. Sir we have tuned the pid for task-3 and the drone was working fine but as soon as we changed the battery drone starts behaving randomly. What is the solution to this problem?
+We received the batteries today and after the first charge itself the battery has got bulged and the drone not taking off with it. 
+the drone can be operated at a good height for 50seconds, then it suddenly drops to a height of 0.5 feet, all the three batteries are causing the same problem, this occurred today, What to do?We previously did not ask for replacement.
+The new batteries we got were much smaller in size and hence it is not able to fit properly in the slot. The capacity of the previous batteries were 600 mAh and the new ones we got are of 380mAh.
+Following link can be used to obtain the tracking ids of the 22 teams that have requested battery replacement.
+Sir the motor is showing random behaviour due to difference in rpm of motors. Initially the motors were working fine and now drone is unable to attain height 
+Sir the motor is showing random behaviour due to difference in rpm of motors. Initially the motors were working fine and now drone is unable to attain height Please help
+Even at full charged battery when we give a throttle value, it goes up but in backward direction and then even when the code is sending the command to go right it doesn't go, it just goes up around 10-15cm and then rushes backward. We thought it was due to motors so we replaced the motors but the problem persisted then we replaced the propellers but this also didn't solve it. We calibrated it multiple times with different phones but still the problem persisted. Each time the calibrated values were good the pitch was 0 roll was 0 and yaw was around 3.
+I charged all the batteries and then tried them ,the above voltage readings are after fully charging the batteries
+Have the batteries been dispatched?. If so, Please let us know the tracking ID. We have to inform our college about it. Team ID-CD#916
+Centre of mass is shifted due to difference in weight/size of the new battery. Hence the drone wobbles.
+Our drone goes above a height of 30 cm only for about 5 seconds on full charge, after that it starts to fall off and doesn't even go above 20 cm. This is by using the phone application and giving full throttle. Because of this we are unable to tweak the PID algorithm properly. This happens for all the batteries. What should we do?
+urgent sir,  till yesterday one of the batteries was showing 4.2 volts now that battery is also showing 0v in plutoapp. I have received an email regarding batteries replacement now i have three faulty batteries what should i do??? how can i test the script??
+Sir, we uploaded the spark_V testing.hex file and it is not printing anything on the screen, the screen is just blank. What should we do?
+we tried every measure but there is some problem with the left white line sensor. while doing the line follower code the left white line sensor is giving bizarre values.
+The drone works fine for a voltage of 4.2 with the set gains but the voltage starts dropping its behavior also changes and once it goes below 4 it does not take off only to a significant height and all these happens within 5-6 trials of tuning only, what is the solution to this problem? Also what is the hovering throttle range for pluto drone? 
+Sir, the drone doesn't arm itself even when we fire the arm() command repeatedly in the key_handling.py script. Please hint us on where we are going wrong ASAP and whether there is any other way to do this.
+Except battery , can we use more quantity of other ec components or other ec components than given in the kit?
+Can we use external battery source for transmitter or should we power it via laptop only?
+What is the maximum time for charging the battery of plutodrone? It is given in the battery that the voltage is 3.7 v, but in the Pluto controller app we get voltage upto 4.1 v. What is the max voltage of the battery?
+When we turn on spark V, the lcd display and white line sensors switch on for a few seconds, then they turn off and a few seconds later, the power LED goes off too. Multimeter gives the value of battery voltage as 6.06 V. So is the issue only with the battery or is there anything else?
+i have connected spark v to batteries and turned it on and then connected to STK500V2 programmer and connected it to laptop. I am getting the error 'tty/ACM0': Permission denied and this device this there in the device list
+In the Pluto Drone kit that we have received, two of the three batteries are not functional.
+After charging the batteries, we tested them using a multimeter. One of the batteries does not get charged, and its voltage level is stuck at 1.62V(an image is attached for your reference). The other battery did get charged to more than 4.0V once, but it is not able to power up the drone. At present we have only one working battery. Please help us out
+how to connect li-po batteries to perf board or breadboard?
+Sir, we get a timeout error while uploading hex file even logged in as root. How to fix it?
+can we use two given battery one for microcontroller and other for L298 circuit only for hardware testing purpose for making video? can we prepared the board later? 
+we have received different components like batteries, Arduino, ICs, heat sink, heat tubes etc. can you provide any idea where to add them in the snake model so that we can modify design.. Is there any specific restrictions i should maintain?
+how do we come to know the charging status or the percentage of charge left on the battery given with the Pluto drone.
+Battery which we have received is dead (not working)
+Should we design a separate mount for placement of the microcontroller and battery or just the brackets for this task?
+From morning we are using the robot and the battery is draining .We charged the robot in the evening and it's almost drained out.Now,we are unable to charge at 1AM .As we have only 5hrs to submit the task.We need to do more runs.After heating the battery surface(using external substance) it's not getting charged.
+Sir, Can we use extra 12V battery to drive the rover.
+On connecting the adapter to charging port and battery to battery port, green led glows for 2 secs and turns off, then bot is giving continuous 2 beeps (along with red led) in intervals of 1 sec. Battery is on low power too, what to do? 
+Sir, one cell in LiPo battery shows 0.05 V and isn't charging at all while the other one has overcharged to 4.2 V
+We were using the laser from the 6v battery pack. After working 2-3 days fine, it heated-up and smelled then stopped working.
+During charging green led is not showing continuous green signal.when we connect the charger it blinks one time and after that not showing green signal.
+My battery is damage so from where I can get new battery.
+My battery is giving one long beep followed by two short beep on auxiliary power.what dose it mean?
+Our battery is become full charge and discharge in 5min. Is there any way so we can improve our battery life.
+we are finding difficulty in powering up both Rpi and motors from battery. we are giving 2.1 A to Rpi and 1 A to motors but when both are connected Rpi wifi is not getting generated(wifi adapter is not getting powered).what is the possible solution for this ?
+we are using two 9V external batteries to power up BO motors. but both motors are not working at same time. we have tried power bank also, but only one motor is working at a time. so, what kind of power source we can use to power up both motors together efficiently.
+The battery gives a long beep, delay and repeat while charging, and after some time it begins to charge properly. It has happened in two instances with us. How to figure out this abrupt behavior of bot ??
+Our nodemcu was working fine before, but today when we were working with lipo battery and nodemcu to power the servos it suddenly stopped working. The board is not being recognized. It is also getting heated as we connect to PC. Please guide as to how we can solve this problem.
+We are using 9v battery for driving motors but battery is draining out soon .so plz tell us can we use 12V rechargeable battery
+Sir, it was earlier mentioned by an Instructor that the power bank is enough to power the rover including motors, and the 6V battery casing will be used to power the Base station (Node_MCU, Servos and Laser). So what is the use of 7.4 V LiPo.
+We are charging our battery first time, however, our battery is not low.  I am attaching a video link (google drive link) which showing the complete problem in charging the battery. Help us as soon as possible
+Yesterday robot battery got damaged. It wasn't charging initially. I googled it and found that after heating battery would charge. It works for me several time. Yesterday I was heating the battery, when I placed it in robot for charging. Nothing happens initially then smoke came from battery. I immediately removed the battery. Robot is working perfectly fine with auxillary power supply. Please help us.. provide the link where we can purchase it
+As Laser need to be powered by 4 AA cell battery.
+shall we use 6AA battery holder pack for powering dc motor...since we use rechargable batteries, it supply 1.2v per battery (4*1.2=4.8 which is less than 5v) 
+After this i connected it for to the battery charger.later after half an hour there was rise in battery charges temp.
+Will the logic level converter work if we supply 7.4 V instead of 5V as the servo motors will be powered by LiPo battery. Basically, will it convert Logic Level 3.3V to 7.4V
+sometime battery is not charging. 
+Battery was working just fine but today when we tried to charge it, it started giving a sequence of buzzer sounds which indicated towards 'Charge termination due to battery failure'. Though the battery is is working fine and the voltage output shown on the GUI is over 10V.
+How to power Node_MCU using Lipo battery(7.4v). 
+When we connected the laser to the batteries(1.5x4=6v) as shown in the @914,
+when i connect the firebird V with auxiliary power and battery is detached, it is working but continuously giving one long beep followed by two short beeps after interval of one second along with blinking of red led. also when i try to charge the batteries there is no indication that battery is getting charged please help.
+When i switch on the robot it starts giving continuous beeps without any delay in-between ? Any expected problem or error ? Is battery dead or damaged 
+According to hardware manual, this is a sign that there is a problem with battery and must be replaced. Moreover i have received broken Sharp sensor and mailed at help-desk accordingly. Still waiting for reply and what actions to take.
+As said many a times in previous threads, the battery of the firebird V is not charging and we have tried all the method asked in the previous threads... 
+We tried to test out bot first time today and after connecting the battery and switching ON the bot we encountered the following problems 
+We have tried everything as asked in the previous threads i.e. Keeping the batter under sunlight, or using the dryer over the battery, or keeping it under incandescent lamp... But all in vain..... Our battery is still not able to charge!! Please reply what to do now!!
+we have confirmed our acknowledgement and now we found that our robot is having battery problem. there is a confusion in the battery status indication section of the hardware manual
+while charging the battery for the first time of the fire bird V,we are getting the following error.
+while charging the firebird a long beep and two short beeps are coming one after other "continuously" and red light is blinking continuously. Please explain the problem and its solution.
+When charging the battery of firebird V robot for the first time , it gives one long beep and green led turns on and then instantly it gives short beeps repeatedly along with the flashing of RED LED , According to the manual it is the case of charge termination due to overcurrent....What should we do to solve this issue..please help.
+The hardware manual for Firebird V shows a 6 pin battery connector where the first pin (left) is shorted with the 2nd pin. The battery we've received has a 5 pin connector. Do I go ahead and connect this 5pin to the 6 heads on the firebird? What about the left most pin?
+It refers to Battery charging and maintenance as given in shipment page on the portal.
+We have not received "Battery protection Circuit" in the given kit.
