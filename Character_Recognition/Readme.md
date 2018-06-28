@@ -6,6 +6,7 @@ The Flattened images of the above Dataset and their classifications are cached i
 the flattened images in text again run Training_English_Dataset.py 
 
 ## Logistic Regression approach
-Main code: Character_recognition_logistic_regression.py
+* Main code: Character_recognition_logistic_regression.py
 ## Convolution Neural Network approach
-Main code: Character_recognition_conv_neural_networks.py
+* Network Structure: 
+* Main code: Character_recognition_conv_neural_networks.py
