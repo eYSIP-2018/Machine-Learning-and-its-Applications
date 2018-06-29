@@ -1,5 +1,7 @@
 # Automated Replies for piazza Queries:
 ## Requirements and References:
 There are two approaches for this problem statement, viz
-* **Sentence Similarity based on Semantics nets, based on [this](https://ieeexplore.ieee.org/document/1644735/) paper:** Computationally expesive
+* **Sentence Similarity based on Semantics nets, based on [this](https://ieeexplore.ieee.org/document/1644735/) paper:** 
+- Code: Automated_Reply_Similarity.py
+- This method has higher accuracy for predicting most similar sentence but is computationally more expensive
 * **Finding closest similar query considering top words in vocabulary as independent vectors in N-Dimensions:**
