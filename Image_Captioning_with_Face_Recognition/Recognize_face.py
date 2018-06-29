@@ -12,7 +12,7 @@ import os
 import math
 from matplotlib import pyplot as plt
 from IPython.display import clear_output
-
+import pickle
 #%matplotlib inline
 # Open a new thread to manage the external cv2 interaction
 cv2.startWindowThread()
@@ -122,10 +122,14 @@ images, labels, labels_dic = collect_dataset()
 
 rec_eig = cv2.face.EigenFaceRecognizer_create()
 rec_eig.train(images, labels)
+rec_eig.save("rec_eig.yml")
+#rec_eig.read("rec_eig.yml")
 
 # needs at least two people 
 rec_fisher = cv2.face.FisherFaceRecognizer_create()
 rec_fisher.train(images, labels)
+
+
 
 rec_lbph = cv2.face.LBPHFaceRecognizer_create()
 rec_lbph.train(images, labels)
@@ -152,15 +156,15 @@ while True:
 #            conf = collector.getMinDist()
 #            pred = collector.getMinLabel()
             threshold = 140
-            print("Prediction: " + labels_dic[pred].capitalize() + ", Confidence: " + str(round(conf)))
+            print("Prediction: " + labels_dic[pred].capitalize(),conf)# + ", Confidence: " + str(round(conf)))
             
             cv2.putText(frame, labels_dic[pred].capitalize(),
                         (faces_coord[i][0], faces_coord[i][1] - 10),
-                        cv2.FONT_HERSHEY_PLAIN, 3, (66, 53, 243), 2)
+                        cv2.FONT_HERSHEY_COMPLEX_SMALL  , 3, (255, 255, 255), 1)
         clear_output(wait = True)
         draw_rectangle(frame, faces_coord) # rectangle around face
     cv2.putText(frame, "ESC to exit", (5, frame.shape[0] - 5),
-                    cv2.FONT_HERSHEY_PLAIN, 1.3, (66, 53, 243), 2, cv2.LINE_AA)
+                    cv2.FONT_HERSHEY_COMPLEX_SMALL , 1.3, (0, 0, 243), 2, cv2.LINE_AA)
     cv2.imshow("Recognition", frame) # live feed in external
     if cv2.waitKey(40) & 0xFF == 27:
         cv2.destroyAllWindows()
