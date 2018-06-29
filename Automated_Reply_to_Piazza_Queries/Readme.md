@@ -1,5 +1,6 @@
 # Automated Replies for piazza Queries:
 ## Requirements and References:
+## Project Brief description:
 There are two approaches for this problem statement, viz
 * **Sentence Similarity based on Semantics nets, based on [this](https://ieeexplore.ieee.org/document/1644735/) paper:** 
   - Code: Automated_Reply_Similarity.py
