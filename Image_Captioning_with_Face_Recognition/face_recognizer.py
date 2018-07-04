@@ -115,7 +115,6 @@ def substitute_name(input_string, positions, predicted_name):
 # MAIN FUNCTION--------------------------------------------------------------------------------------------------------------------------------------
 """
 def generate_caption_on_face(input_string, img_path):
-    
     # Detect if hotwords are present
     hotwords_present, hotwords, positions = detect_hotwords(input_string)                            # returns boolean
     
@@ -147,4 +146,3 @@ def generate_caption_on_face(input_string, img_path):
         
     return input_string
         
-print(generate_caption_on_face("a is sitting on the chair eeee","swapnil.jpg"))
