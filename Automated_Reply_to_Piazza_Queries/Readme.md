@@ -6,3 +6,5 @@ There are two approaches for this problem statement, viz
   - Code: Automated_Reply_Similarity.py, based on [this](https://ieeexplore.ieee.org/document/1644735/) paper
   - This method has higher accuracy for predicting most similar sentence but is computationally more expensive
 * **Finding closest similar query considering top words in vocabulary as independent vectors in N-Dimensions:**
+  - Code: Automated_reply_ml.py
+  - This method is computationally less expensive and gives reliable results
