@@ -4,7 +4,7 @@
 
 [Anaconda](http://www.anaconda.com/downloads) a  scientific Python distribution for Data Science
 Anaconda includes Python 3.6, Spyder IDE & Jupyter Notebook
-The list of libraries required for each application are:}
+The list of libraries required for each application are:
 ## Optical Character Recognition:
 
 * Scikit-Learn v0.19.1
@@ -20,7 +20,7 @@ Extra Libraries Required are:
 * Dependencies for using Gmail-API: apiclient, httplib2, outh2client
 
 ## Image Captioning with Face recognition:
-Hardware used: Graphical Processing unit used to train model is NVIDIA GeForce GTX1050Ti}
+Hardware used: Graphical Processing unit used to train model is NVIDIA GeForce GTX1050Ti
 Extra Libraries Required are:
 * Tensorflow-GPU v1.1.0
 * PIL v5.1.0
