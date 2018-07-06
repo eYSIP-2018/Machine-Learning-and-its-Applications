@@ -7,11 +7,11 @@ Anaconda includes Python 3.6, Spyder IDE & Jupyter Notebook
 The list of libraries required for each application are:}
 ## Optical Character Recognition:
 
-  -Scikit-Learn v0.19.1
-  -Keras v2.1.5
-  -Tensorflow-CPU v1.8.0
-  -Pandas v0.22.0
-  -penCV v3.4.1
+  *Scikit-Learn v0.19.1
+  *Keras v2.1.5
+  *Tensorflow-CPU v1.8.0
+  *Pandas v0.22.0
+  *OpenCV v3.4.1
 
       
 ## Automated Replies for Piazza Queries:
